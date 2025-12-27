@@ -1,21 +1,10 @@
-# Enable rewrite engine
-RewriteEngine On
+RewriteEngine on
+Options +FollowSymLinks
 
-# Redirect everything to page.php with clean URLs
-# Example: /index -> page.php?id=index
-# Example: /performance -> page.php?id=performance
+RewriteRule ^gocoin_([a-z0-9_\-]+).html$ page.php\?id=$1 [L]
 
-# Don't rewrite if the file exists (for images, CSS, etc.)
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^$ page.php [L]
+RewriteRule ^/$ page.php [L]
+RewriteRule ^index.html$ page.php [L]
+RewriteRule ^index.php$ page.php [L]
 
-# Rewrite rule: capture the page name and pass it to page.php
-RewriteRule ^([a-zA-Z_]+)/?$ page.php?id=$1 [L,QSA]
-
-# Default: redirect root to index page
-RewriteCond %{REQUEST_FILENAME} !-f
-RewriteRule ^$ page.php?id=index [L,QSA]
-
-# Optional: Force www or non-www (uncomment if needed)
-# RewriteCond %{HTTP_HOST} !^www\.
-# RewriteRule ^(.*)$ http://www.%{HTTP_HOST}/$1 [R=301,L]
