@@ -20,7 +20,6 @@ a:visited {
 }
 
 a:hover {
-	background-color: #fde8c3;
 	color: #2c5282;
 }
 
@@ -108,10 +107,6 @@ tr.even {
 
 tr.odd {
 	background-color: #f8f8ff;
-}
-
-tr:hover {
-	background-color: #fde8c3;
 }
 
 img {
