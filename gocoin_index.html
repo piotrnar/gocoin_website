@@ -12,26 +12,37 @@ Unlike Bitcoin Core, the full node (<b>client</b>) is independent from the <b>wa
 allowing flexible deployment and offline wallet operation.<br>
 <br>
 Created and maintained by <a href="https://github.com/piotrnar" target="_blank">Piotr Narewski</a>.<br>
-<h2>Client</h2>
-<ul>
-<li>Full node implementation with network communication and memory pool
-<li>Web-based interface for remote access via HTTP
-<li>Implements all up-to-date consensus rules, including Taproot
-<li>Mining capable (no dedicated API currently provided)
-</ul>
+<br>
 
-<h2>Wallet</h2>
-<ul>
-<li>Deterministic and password seeded - no backups needed if you remember your password
-<li>Designed for offline use on air-gapped computers for maximum security
-<li>BIP-39 compatible, works interchangeably with popular hardware and software wallets
-</ul>
+<div class="components-container">
+	<div class="component-box">
+		<h2>Client</h2>
+		<ul>
+		<li>Full node implementation with network communication and memory pool
+		<li>Web-based interface for remote access via HTTP
+		<li>Implements all up-to-date consensus rules, including Taproot
+		<li>Mining capable (no dedicated API currently provided)
+		</ul>
+	</div>
 
-<h2>Tools</h2>
-<ul>
-<li>Additional utilities in the <b>tools/</b> folder
-<li>Each subdirectory contains a separate tool for specific tasks
-<li>Includes blockchain analysis, transaction handling, and development utilities
-</ul>
+	<div class="component-box">
+		<h2>Wallet</h2>
+		<ul>
+		<li>Deterministic and password seeded - no backups needed if you remember your password
+		<li>Designed for offline use on air-gapped computers for maximum security
+		<li>BIP-39 compatible, works interchangeably with popular hardware and software wallets
+		</ul>
+	</div>
+
+	<div class="component-box">
+		<h2>Tools</h2>
+		<ul>
+		<li>Additional utilities in the <b>tools/</b> folder
+		<li>Each subdirectory contains a separate tool for specific tasks
+		<li>Includes blockchain analysis, transaction handling, and development utilities
+		</ul>
+	</div>
+</div>
+
 </body>
 </html>
