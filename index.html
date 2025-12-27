@@ -411,6 +411,13 @@
                 loadPage(page);
             });
         }
+        
+        // Listen for messages from iframes (for navigation)
+        window.addEventListener('message', function(e) {
+            if (e.data && e.data.action === 'loadPage' && e.data.page) {
+                loadPage(e.data.page);
+            }
+        });
     </script>
 </body>
 </html>

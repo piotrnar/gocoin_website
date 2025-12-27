@@ -3,30 +3,131 @@
 <link rel="stylesheet" href="style.css" type="text/css">
 </head>
 <body>
-<h1>About Gocoin</h1>
-<b>Gocoin</b> is a full <b>Bitcoin</b> solution, written entirely from scratch in <a href="http://golang.org/" target="_blank">Go language</a> (golang).<br>
-The initial version was released in 2013 and it has been actively maintained ever since.<br>
-<br>
-The software's architecture is focused on high security and maximum performance.<br>
-Unlike the architecture chosen by Bitcoin Core,
-Gocoin's full node (called <b>client</b>) is an application independent from the <b>wallet</b>.<br>
-<br>
-The entire software was created and has been maintained by <a href="https://github.com/piotrnar" target="_blank">Piotr Narewski</a>.<br>
-<br>
-<h2>Client</h2>
 
-It implements full bitcoin node functionality, including the network communication and the memory pool.<br>
-The user interface is controlled via HTTP and a web browser, allowing a smooth remote access.<br>
-It implements all the up-to-date consensus rules, including Taproot.<br>
-It is capable of mining, although no proper mining API is currently provided, for the lack of interest.<br>
-<br>
-<h2>Wallet</h2>
-The <b>wallet</b> is deterministic and password seeded. As long as you remember the password, you do not need any backups of your wallet.
-For maximum security, it is designed to be used on an offline computer.
-The recent versions are also compatible with BIP-39, allowing it to be used interchangeably with all the popular software and hardware wallets.<br>
-<br>
-<h2>Tools</h2>
-In addition there is also a set of more and less useful tools. They are all inside the <b>tools/</b> folder. 
-Each sub-directory in that folder is a separate tool.<br>
+<!-- Hero Section -->
+<div class="hero-section">
+    <h1 class="hero-title">Gocoin</h1>
+    <p class="hero-subtitle">Bitcoin full node implementation written in Go. Zero dependencies. Active since 2013.</p>
+    <div class="hero-cta">
+        <a href="https://github.com/piotrnar/gocoin" target="_blank" class="btn btn-primary">
+            <svg class="btn-icon" viewBox="0 0 24 24" fill="currentColor">
+                <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+            </svg>
+            GitHub
+        </a>
+        <a href="#installation" class="btn btn-secondary" id="getStartedBtn">Installation</a>
+    </div>
+</div>
+
+<script>
+// Handle Get Started button
+document.getElementById('getStartedBtn').addEventListener('click', function(e) {
+    e.preventDefault();
+    // Try to navigate in parent window (iframe mode)
+    if (window.parent && window.parent !== window) {
+        try {
+            if (window.parent.loadPage) {
+                window.parent.loadPage('installation');
+            } else {
+                // Fallback: change parent URL
+                window.parent.location.href = 'installation';
+            }
+        } catch(err) {
+            // Cross-origin restriction, use postMessage
+            window.parent.postMessage({action: 'loadPage', page: 'installation'}, '*');
+        }
+    } else {
+        // Not in iframe, direct navigation
+        window.location.href = 'gocoin_installation.html';
+    }
+});
+</script>
+
+<!-- Stats Section -->
+<div class="stats-grid">
+    <div class="stat-card">
+        <div class="stat-number">11+</div>
+        <div class="stat-label">Years Active</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">0</div>
+        <div class="stat-label">Dependencies</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">✓</div>
+        <div class="stat-label">Taproot Ready</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">BIP-39</div>
+        <div class="stat-label">Compatible</div>
+    </div>
+</div>
+
+<!-- Features Section -->
+<h1>Core Components</h1>
+
+<div class="feature-grid">
+    <!-- Client Feature -->
+    <div class="feature-card">
+        <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M12 6v6l4 2"/>
+            </svg>
+        </div>
+        <h3>Client</h3>
+        <p>Full node implementation with network communication and memory pool. HTTP-based interface for remote access.</p>
+        <ul class="feature-list">
+            <li>Up-to-date consensus rules</li>
+            <li>Web-based interface</li>
+            <li>Mining capable</li>
+        </ul>
+    </div>
+
+    <!-- Wallet Feature -->
+    <div class="feature-card">
+        <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="7" width="18" height="14" rx="2"/>
+                <path d="M3 11h18M8 7V5a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/>
+            </svg>
+        </div>
+        <h3>Wallet</h3>
+        <p>Deterministic and password seeded. Designed for offline use. BIP-39 compatible with popular wallets.</p>
+        <ul class="feature-list">
+            <li>Offline operation</li>
+            <li>No backups needed</li>
+            <li>Independent from client</li>
+        </ul>
+    </div>
+
+    <!-- Tools Feature -->
+    <div class="feature-card">
+        <div class="feature-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/>
+            </svg>
+        </div>
+        <h3>Tools</h3>
+        <p>Additional utilities included in the tools/ directory. Each subdirectory contains a separate tool.</p>
+        <ul class="feature-list">
+            <li>Command-line utilities</li>
+            <li>Blockchain analysis</li>
+            <li>Transaction tools</li>
+        </ul>
+    </div>
+</div>
+
+<!-- Architecture Section -->
+<div class="architecture-highlight">
+    <h2>Architecture</h2>
+    <p>Unlike Bitcoin Core, the full node client is an application independent from the wallet. This separation allows for flexible deployment and offline wallet security.</p>
+</div>
+
+<!-- Creator Section -->
+<div class="creator-section">
+    <p>Created and maintained by <a href="https://github.com/piotrnar" target="_blank" class="creator-link">Piotr Narewski</a></p>
+</div>
+
 </body>
 </html>
