@@ -298,7 +298,7 @@ therefore setting it to 0.0 will route all the accepted transactions.</td>
 <td> 0</td>
 <td class="cfg_info"> Non-zero value sets the soft memory limit for Go heap (value in MB).<br>
     Zero sets the default limit, which is unlimited unless defined by <code>GOMEMLIMIT</code> envirionment variable.<br>
-    Mind that the UTXO records are not stored within the heap, unless <code>UseGoHeap</code> is set to <b>true</b>.
+    Mind that the UTXO records are not stored within the heap (require extra RAM), unless <code>UseGoHeap</code> is set to <b>true</b>.
 </td>
 </tr>
 <tr class="even">
