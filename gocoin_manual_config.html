@@ -288,7 +288,7 @@ therefore setting it to 0.0 will route all the accepted transactions.</td>
 <tr class="even">
 <td class="cfg_name"> Memory.GCPercTrshold</td>
 <td class="cfg_type"> int </td>
-<td> 30</td>
+<td> 10</td>
 <td class="cfg_info"> Sets the garbage collection target percentage.<br>
     <b>-1</b> disables garbage collector - use it only with <code>MemoryLimitMB</code> or your node will run out of memory.</td>
 </tr>
@@ -298,7 +298,6 @@ therefore setting it to 0.0 will route all the accepted transactions.</td>
 <td> 0</td>
 <td class="cfg_info"> Non-zero value sets the soft memory limit for Go heap (value in MB).<br>
     Zero sets the default limit, which is unlimited unless defined by <code>GOMEMLIMIT</code> envirionment variable.<br>
-    Mind that the UTXO records are not stored within the heap (require extra RAM), unless <code>UseGoHeap</code> is set to <b>true</b>.
 </td>
 </tr>
 <tr class="even">

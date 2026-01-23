@@ -12,16 +12,15 @@ If it uses all the memory, revert the change before you see the swap file burnin
 
 <a name="gc"></a>
 <h2>Garbage Collector and UTXO heap</h2>
-If you have RAM to spare, try increasing the Garbage Collector treshold.<br>
+If you have RAM to spare, try increasing the Garbage Collector treshold, from the default <b>10</b> (percent).<br>
 This will increase memory usage, but should improve performance
 (e.g. initial blockchain download time).<br>
 For that, edit the <a href="gocoin_manual_config.html">config file</a> to set
-<code>Memory.GCPercTrshold</code> to <b>100</b> or more (higher value for more effect).<br>
+<code>Memory.GCPercTrshold</code> to <b>30</b> or <b>100</b> or even more (higher value for more effect).<br>
 <br>
 Alternativelly, you can turn off the GC treshold (by setting it to <b>-1</b>) and control
 the maximum memory usage via <code>Memory.MemoryLimitMB</code>.<br>
-Use this method if you want to allocate a fixed amount of RAM for your running node,
-but mind that the limiter does not account for UTXO records when <code>Memory.UseGoHeap</code> is disabled.<br>
+Use this method if you want to allocate a fixed amount of RAM for your running node.<br>
 <br>
 Additionally, you can switch UTXO records to Go's heap manager by setting <code>Memory.UseGoHeap</code>
 to <b>true</b>.<br>
@@ -155,6 +154,15 @@ The node must not be running while executing the tool.<br>
 You can reverse the operation of compressing the database, be running <code>utxo -decompress</code>.<br>
 <br>
 <i>Note: It saves only about 3% of space used by UTXO.db file.</i><br>
+<br>
+
+<a name="compiler"></a>
+<h2>Compiler optimizations</h2>
+Building the client (with <code>go build</code>), set <code>GOAMD64</code> variable to the highest value supported by your CPU.<br>
+Most CPUs will work with <code>GOAMD64=v3</code> and the latest models support <code>GOAMD64=v4</code><br>
+<br>
+There is also an experimental Garbage Collector engine, which you can enable be setting
+<code>GOEXPERIMENT=greenteagc</code><br>
 <br>
 
 <a name="counters"></a>
