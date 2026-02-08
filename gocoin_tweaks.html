@@ -9,20 +9,26 @@ Like with every tuning, you should apply any changes in steps, checking each tim
 In particular, you should monitor your system for RAM usage.
 If it uses all the memory, revert the change before you see the swap file burning.<br>
 <br>
+<i>Note: <b>If you experience problems and don't know why, just go back to the default config.</b><br>
+To restore the default config, simply delete <b>gocoin.conf</b> and execute <code>client -sc</code>
+to recreate it.
+</i><br>
+<br>
 
 <a name="gc"></a>
 <h2>Garbage Collector and UTXO heap</h2>
-If you have RAM to spare, try increasing the Garbage Collector treshold, from the default <b>10</b> (percent).<br>
+If you have RAM to spare, try increasing the Garbage Collector treshold, from the default value.<br>
 This will increase memory usage, but should improve performance
 (e.g. initial blockchain download time).<br>
 For that, edit the <a href="gocoin_manual_config.html">config file</a> to set
-<code>Memory.GCPercTrshold</code> to <b>30</b> or <b>100</b> or even more (higher value for more effect).<br>
+<code>Memory.GCPercTrshold</code> to double, tripple or even more (higher value for more effect).<br>
 <br>
 Alternativelly, you can turn off the GC treshold (by setting it to <b>-1</b>) and control
 the maximum memory usage via <code>Memory.MemoryLimitMB</code>.<br>
-Use this method if you want to allocate a fixed amount of RAM for your running node.<br>
+Use this method if you want to allocate a fixed amount of RAM for your running node
+(it will use all the memory given).<br>
 <br>
-Additionally, you can switch UTXO records to Go's heap manager by setting <code>Memory.UseGoHeap</code>
+Additionally, you can switch UTXO records to Go's native heap manager by setting <code>Memory.UseGoHeap</code>
 to <b>true</b>.<br>
 This seems to significantly improve UTXO update performance (so also chain sync times),
 as long as your node does not run GC too often.<br>
@@ -33,20 +39,22 @@ will take slightly longer.<br>
 <a name="cache"></a>
 <h2>Initial chain sync cache</h2>
 
-If you have a fast internet connection (e.g. 1Gbit), examine the two options below.<br>
-Don't bother with a slow connection, as the download speed is your bottleneck then.
-(you know it when syncing node uses your entire bandwidth)<br>
-The first option will likely have a better effect on the performance, although requires more RAM.<br>
+If you have a fast internet connection (e.g. 1Gbit), examine the two options listed below.<br>
+Don't bother with a slow connection, as the download speed is your bottleneck then
+(it's when a syncing node uses your entire bandwidth).<br>
+<br>
+However, with a fast network the bottleneck is the speed at which your node builds the UTXO database.<br>
+To assure the UTXO worker doesn't have to wait for the network,
+the node tries to download blocks ahead and store them in the cache.<br>
+The bigger the cache, the less likely it is that the UTXO worker will ever be idle, having to wait for the network.<br>
+<br>
+Here are the two options - the first one will likely have a better effect on the performance (but requires more RAM):<br>
 <ol>
 <li><b>Turn off caching on disk.</b> Edit the <a href="gocoin_manual_config.html">config file</a> and set the value of <code>Memory.CacheOnDisk</code> to <b>false</b>.</li>
 <li><b>Increase cache size.</b> Edit the <a href="gocoin_manual_config.html">config file</a> and increase the value of <code>Memory.SyncCacheSize</code>.</li>
 </ol>
-With a fast network connection, the bottleneck is the speed at which your node builds the UTXO database.<br>
-To assure the UTXO worker doesn't have to wait for the network,
-the node tries to download blocks ahead and store them in the cache.<br>
-The bigger the cache, the less likely it is that the UTXO worker will ever have to wait for the network.<br>
-<br>
 Mind that with <code>CacheOnDisk</code> disabled, a change of the cache size has a major effect on memory usage.<br>
+<b>Make sure your client is not using all available RAM</b>, or the sync performace will tank instead of improving.<br>
 <br>
 At the other hand, having the cache on disk results in a minimal memory requiement even for a huge cache size.<br>
 But it comes at the extra time required for the disk operations and re-creation of memory structures after loading.<br>
@@ -153,7 +161,7 @@ The node must not be running while executing the tool.<br>
 <br>
 You can reverse the operation of compressing the database, be running <code>utxo -decompress</code>.<br>
 <br>
-<i>Note: It saves only about 3% of space used by UTXO.db file.</i><br>
+<i>Note: It saves only about 3% of space used by UTXO.db file and evel less RAM.</i><br>
 <br>
 
 <a name="compiler"></a>
