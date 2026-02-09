@@ -200,7 +200,7 @@ Prefering convenience over security, change .txt extension to .bat or .sh (depen
 <tr class="even">
 <td class="cfg_name"> TXPool.FeePerByte</td>
 <td class="cfg_type"> float64</td>
-<td> 1.0</td>
+<td> 0.001</td>
 <td class="cfg_info"> Required minimum fee per byte to accept a transaction to the memory pool.</td>
 </tr>
 <tr class="even">
@@ -262,7 +262,7 @@ or (more likely) UTXOs that had been mined and spent before the tx was received.
 <tr class="odd">
 <td class="cfg_name"> TXRoute.FeePerByte</td>
 <td class="cfg_type"> float64</td>
-<td> 0.0</td>
+<td> 0.1</td>
 <td class="cfg_info"> Required minimum fee per byte to route accepted transactions.<br>
 Note that transactions which do not meet "TXPool.FeePerByte" (see above) are not being accepted,
 therefore setting it to 0.0 will route all the accepted transactions.</td>
