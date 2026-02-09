@@ -140,8 +140,8 @@ Prefering convenience over security, change .txt extension to .bat or .sh (depen
 <td class="cfg_type"> uint16</td>
 <td> 0 </td>
 <td class="cfg_info"> Use this TCP port for incomming connections.<br>
-    Zero value means to use the default port, which is 8333 for main net and 18333 for test net.<br>
-Note that Bitcoin Core (before version 23.0) does not connect to TCP ports other than the default.</td>
+    Zero value means to use the default port, which is 8333 for main net and 18333 for test net.
+</td>
 </tr>
 <tr class="odd">
 <td class="cfg_name"> Net.BindToIF</td>
@@ -179,11 +179,6 @@ Note that Bitcoin Core (before version 23.0) does not connect to TCP ports other
 <td> 3</td>
 <td class="cfg_info"> When a new block appears, (up to) how many peers to ask for its data at the same time.</td>
 </tr>
-<tr class="odd">
-<td class="cfg_name"> Net.MinSegwitCons</td>
-<td class="cfg_type"> uint32</td>
-<td> 4</td>
-<td class="cfg_info"> Maintain at least so many connections to nodes indicating support for Segregated Witness (via bit 0x8 in Services).</td>
 <tr class="odd">
 <td class="cfg_name"> Net.ExternalIP</td>
 <td class="cfg_type"> string</td>
