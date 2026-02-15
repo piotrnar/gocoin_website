@@ -16,7 +16,7 @@ to recreate it.
 <br>
 
 <a name="gc"></a>
-<h2>Garbage Collector and UTXO heap</h2>
+<h2>Garbage Collector Treshold</h2>
 If you have RAM to spare, try increasing the Garbage Collector treshold, from the default value.<br>
 This will increase memory usage, but should improve performance
 (e.g. initial blockchain download time).<br>
@@ -27,13 +27,6 @@ Alternativelly, you can turn off the GC treshold (by setting it to <b>-1</b>) an
 the maximum memory usage via <code>Memory.MemoryLimitMB</code>.<br>
 Use this method if you want to allocate a fixed amount of RAM for your running node
 (it will use all the memory given).<br>
-<br>
-Additionally, you can switch UTXO records to Go's native heap manager by setting <code>Memory.UseGoHeap</code>
-to <b>true</b>.<br>
-This seems to significantly improve UTXO update performance (so also chain sync times),
-as long as your node does not run GC too often.<br>
-At the other hand, your node will then need more memory and loading of UTXO database (when node starts)
-will take slightly longer.<br>
 <br>
 
 <a name="cache"></a>

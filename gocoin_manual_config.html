@@ -303,10 +303,12 @@ therefore setting it to 0.0 will route all the accepted transactions.</td>
 <td class="cfg_name"> Memory.UseGoHeap</td>
 <td class="cfg_type"> bool</td>
 <td> false</td>
-<td class="cfg_info"> Use native Go heap with garbage collector for UTXO records
-(insted of independant memory heap with no GC).<br>
-Having it enabled will require more memory while the effect on performance may go either way.<br>
-The node must be restarted to apply a new value.
+<td class="cfg_info"> Keep UTXO records inside Go's, heap under the garbage collector (GC) - as opposed to using
+a specialized memory module (without GC). <br>
+Enabling this option requires more memory, but (from Gocoin 1.11.1) provides no benefits,
+except potentially a better system compatibility.
+Use it only if <code>lib/others/memory</code> module would not work on your system.<br>
+The node must be restarted to apply a new value.<br>
 </td>
 </tr>
 <tr class="even">
