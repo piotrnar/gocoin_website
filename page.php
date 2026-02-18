@@ -3,7 +3,7 @@
 $page = isset($_GET['id']) ? preg_replace("/[^a-zA-Z_]/", "", $_GET['id']) : '';
 //echo $page;
 if ($page=='') {
-	$page = 'index';
+	$page = 'news';
 }
 
 function get_between_tags($content, $tag) {
