@@ -119,16 +119,38 @@ On Debian based Linux system, simply execute the following commands:<br>
 </td>
 
 <td valign="top">
-To use <code>sipadll.go</code> speedup, you have to place <b>secp256k1.dll</b>
+To use <code>sipadll.go</code> speedup, you have to place <b>libsecp256k1-5.dll</b>
 in <code>gocoin/client/</code> or in any folder where Windows looks for executables
 (e.g. <code>C:\WINDOWS</code>).<br>
 <br>
-You can find <b>secp256k1.dll</b> in <code>gocoin/tools/sipa_dll/</code>
-or you can download it from <a target="_blank" href="https://sourceforge.net/projects/gocoin/files/?source=directory">sourceforge.net</a>
-(it's inside <a target="_blank" href="https://sourceforge.net/projects/gocoin/files/secp256k1.dll_v2-amd64.zip/download">secp256k1.dll_v2-amd64.zip</a>).<br>
-<br>
-To build <b>secp256k1.dll</b> youself, look into
-<a target="_blank" href="https://sourceforge.net/projects/gocoin/files/secp256k1_win_v2.zip/download">secp256k1_win_v2.zip</a>.
+Build <b>libsecp256k1-5.dll</b> by following the steps below.
+	
+<pre>
+1. MSYS2 + MinGW64
+See the following web pages for info on installing MSYS2 and mingw64 for your Windows OS.
+Please note that you will need the 64-bit compiler.
+ * http://www.msys2.org/
+ * https://stackoverflow.com/questions/30069830/how-to-install-mingw-w64-and-msys2#30071634
+
+
+2. Dependencies
+After having MSYS2 and Mingw64 installed, you have to install dependency packages.
+Just execute the following command from within the "MSYS2 MSYS" shell:
+
+ > pacman -S make autoconf automake libtool lzip gmp
+ 
+
+3. secp256k1
+Now use "MSYS2 UCRT64" shell and execute:
+
+ > cd ~
+ > git clone https://github.com/bitcoin/bitcoin.git
+ > cd bitcoin/src/secp256k1/
+ > ./autogen.sh
+ > ./configure
+ > make --enable-shared
+</pre>	
+After the <b>make</b>, the DLL file will be inside <b>.libs</b> folder.
 </td>
 
 </tr>
