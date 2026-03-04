@@ -57,8 +57,7 @@ But it comes at the extra time required for the disk operations and re-creation 
 Additionally (to assure that UTXO worker never has to wait for network),
 you can setup your node to connect to more peers (<code>Net.MaxOutCons</code>) and/or
 to be more agressive in requesting same blocks from multiple peers (<code>Net.MaxBlockAtOnce</code>).
-Mind that more will not always mean better (e.g. more connectios will eat up more CPU
-while requesting more blocks at once will waste bandwidth).<br>
+Mind that more will not always mean faster IBD, since unnecessary network tasks take away performance from UTXO worker.<br>
 <br>
 To verify whether the cache is doing its job well during IBD, monitor your node's TextUI for
 <code>Emp:CNT/TIME</code> debugs. Ideally, the values should not be increasing past block 200000.<br>
