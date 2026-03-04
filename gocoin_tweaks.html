@@ -30,9 +30,9 @@ Use this method if you want to allocate a fixed amount of RAM for your running n
 <br>
 
 <a name="cache"></a>
-<h2>Initial chain sync cache</h2>
+<h2>Initial Blockchain Download (IBD)</h2>
 
-If you have a fast internet connection (e.g. 1Gbit), examine the two options listed below.<br>
+If you have a fast internet connection (e.g. 1Gbit), examine the options listed below.<br>
 Don't bother with a slow connection, as the download speed is your bottleneck then
 (it's when a syncing node uses your entire bandwidth).<br>
 <br>
@@ -52,11 +52,20 @@ Mind that with <code>CacheOnDisk</code> disabled, a change of the cache size has
 At the other hand, having the cache on disk results in a minimal memory requiement even for a huge cache size.<br>
 But it comes at the extra time required for the disk operations and re-creation of memory structures after loading.<br>
 <br>
+<b>Network settings</b><br>
+Additionally (to assure that UTXO worker never has to wait for network),
+you can setup your node to connect to more peers (<code>Net.MaxOutCons</code>) and/or
+to be more agressive in requesting same blocks from multiple peers (<code>Net.MaxBlockAtOnce</code>).
+Mind that more will not always mean better (e.g. more connectios will eat up more CPU
+while requesting more blocks at once will waste bandwidth).<br>
+<br>
+To verify whether the cache is doing its job well during IBD, monitor your node's TextUI for
+<code>Emp:CNT/TIME</code> debugs. Ideally, the values should not be increasing past block 200000.<br>
+<br>
 <i>Note:<br>
-1. This only affects the chain sync performance. Once the chain is synchronized, it does not matter.<br>
-2. Monitor your node's TextUI for <code>cachempty: X</code> debugs. If X is not increasing after block 200000, don't bother with a bigger cache.<br>
-3. The node does not need restarting to apply new values of these parameters.<br>
-4. Restarting the node during chain sync discards the entire cache, even when on disk.</i><br>
+1. The cache settings only affect IBD performance. Cache is not used once the chain is synchronized.<br>
+2. The node does not need restarting to apply new values of these parameters.<br>
+3. Restarting the node during chain sync discards the entire cache, even when on disk.</i><br>
 <br>
 
 <a name="wallet"></a>
@@ -119,30 +128,20 @@ On Debian based Linux system, simply execute the following commands:<br>
 </td>
 
 <td valign="top">
-To use <code>sipadll.go</code> speedup, you have to place <b>libsecp256k1-5.dll</b>
+To use <code>sipadll.go</code> speedup, you have to place <b>libsecp256k1.dll</b>
 in <code>gocoin/client/</code> or in any folder where Windows looks for executables
 (e.g. <code>C:\WINDOWS</code>).<br>
 <br>
-Build <b>libsecp256k1-5.dll</b> by following the steps below.
+Build <b>libsecp256k1.dll</b> by following the steps below.
 	
 <pre>
-1. MSYS2 + MinGW64
-See the following web pages for info on installing MSYS2 and mingw64 for your Windows OS.
-Please note that you will need the 64-bit compiler.
- * http://www.msys2.org/
- * https://stackoverflow.com/questions/30069830/how-to-install-mingw-w64-and-msys2#30071634
+1. Install MSYS2 + MinGW64. Note that you will need the 64-bit compiler.
 
-
-2. Dependencies
-After having MSYS2 and Mingw64 installed, you have to install dependency packages.
-Just execute the following command from within the "MSYS2 MSYS" shell:
-
+2. If MSYS2 and Mingw64 are properly installed, just execute the following
+command from within the "MSYS2 MSYS" shell:
  > pacman -S make autoconf automake libtool lzip gmp
  
-
-3. secp256k1
-Now use "MSYS2 UCRT64" shell and execute:
-
+3. Use "MSYS2 UCRT64" shell and execute:
  > cd ~
  > git clone https://github.com/bitcoin/bitcoin.git
  > cd bitcoin/src/secp256k1/
@@ -151,6 +150,9 @@ Now use "MSYS2 UCRT64" shell and execute:
  > make --enable-shared
 </pre>	
 After the <b>make</b>, the DLL file will be inside <b>.libs</b> folder.
+Just rename it to <b>libsecp256k1.dll</b> and copy to any folder in your PATH.<br>
+<bt>
+<i>Note: you can also cross-compile the DLL on Linux or MacOS (consult your AI agent for instructions).</i>
 </td>
 
 </tr>
