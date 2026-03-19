@@ -27,7 +27,7 @@ the maximum memory usage via <code>Memory.MemoryLimitMB</code>.<br>
 Use this method if you want to allocate a fixed amount of RAM for your running node
 (it will use all the memory given).<br>
 <br>
-There is no need to restart the node to apply the new values.<br>
+There is no need to restart the node to apply new values.<br>
 <br>
 
 <a name="cache"></a>
@@ -53,6 +53,34 @@ Mind that with <code>CacheOnDisk</code> disabled, a change of the cache size has
 At the other hand, having the cache on disk results in a minimal memory requiement even for a huge cache size.<br>
 But it comes at the extra time required for the disk operations and re-creation of memory structures after loading.<br>
 <br>
+<b>Practical advise</b><br>
+The default configuration is tuned to minimize RAM consumption; for Gocoin 1.11.1 it should contain the maximum memory
+usage during IBD to about 24GB (measured in March 2026).
+If you want to spare more memory to optmize for the fastest IBD time, use the config values as below.<br>
+<table border="1" cellpadding="5" cellspacing="0">
+<tr>
+    <td align="center" width="50%"><b>For system with 32GB or RAM</b></td>
+    <td align="center" width="50%"><b>For system with 64GB or RAM</b></td>
+</tr>
+<tr>
+<td><pre>    "Memory": {
+        "GCPercTrshold": -1,
+        "MemoryLimitMB": 28000,
+        "CacheOnDisk": false,
+        "SyncCacheSize": 1000,
+    },
+</pre></td>
+<td><pre>    "Memory": {
+        "GCPercTrshold": -1,
+        "MemoryLimitMB": 58000,
+        "CacheOnDisk": false,
+        "SyncCacheSize": 2000,
+    },
+</pre></td>
+</tr>
+</table>
+	
+<br>	
 <b>Network settings</b><br>
 Additionally (to assure that UTXO worker never has to wait for network),
 you can setup your node to connect to more peers (<code>Net.MaxOutCons</code>) and/or
