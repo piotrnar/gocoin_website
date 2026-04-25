@@ -285,8 +285,11 @@ therefore setting it to 0.0 will route all the accepted transactions.</td>
 <td class="cfg_type"> int </td>
 <td> 30</td>
 <td class="cfg_info"> Sets the Garbage Collection target percentage (how much memory waste it allows).<br>
-    <b>-1</b> disables Garbage Collector - use it only with <code>MemoryLimitMB</code> or your node will run out of memory.<br>
-    If you set it too low, the performance will drop as the GC will be triggered very often.
+    If you set it too low, the performance will drop as the GC will be triggered very often.<br>
+<hr width="100" align="left">
+    Setting it to <b>-1</b> disables Garbage Collector.
+    With GC disabled, set <code>MemoryLimitMB</code> to prevent your node from consuming all system memory.
+    Do not disable GC on Windows as it may exhaust virtual memory space.
 </td>
 </tr>
 <tr class="even">
