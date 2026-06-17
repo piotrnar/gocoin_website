@@ -79,8 +79,8 @@ If you want to spare more memory to optmize for the fastest IBD time, use the co
 </pre></td>
 </tr>
 </table>
-	
-<br>	
+
+<br>
 <b>Network settings</b><br>
 Additionally (to assure that UTXO worker never has to wait for network),
 you can setup your node to connect to more peers (<code>Net.MaxOutCons</code>) and/or
@@ -161,22 +161,22 @@ in <code>gocoin/client/</code> or in any folder where Windows looks for executab
 (e.g. <code>C:\WINDOWS</code>).<br>
 <br>
 Build <b>libsecp256k1.dll</b> by following the steps below.
-	
+
 <pre>
 1. Install MSYS2 + MinGW64. Note that you will need the 64-bit compiler.
 
 2. If MSYS2 and Mingw64 are properly installed, just execute the following
 command from within the "MSYS2 MSYS" shell:
  > pacman -S make autoconf automake libtool lzip gmp
- 
+
 3. Use "MSYS2 UCRT64" shell and execute:
  > cd ~
  > git clone https://github.com/bitcoin/bitcoin.git
  > cd bitcoin/src/secp256k1/
  > ./autogen.sh
- > ./configure
- > make --enable-shared
-</pre>	
+ > ./configure --enable-shared
+ > make
+</pre>
 After the <b>make</b>, the DLL file will be inside <b>.libs</b> folder.
 Just rename it to <b>libsecp256k1.dll</b> and copy to any folder in your PATH.<br>
 <bt>
