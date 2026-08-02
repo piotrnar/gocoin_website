@@ -52,7 +52,7 @@ Now repeat the "-pub &lt;address&gt;" operation, for each of the wallets that yo
 <br>
 
 <b>Create multisig address</b><br>
-Having all the public keys (each as a hexdump) just bring them all together and use the <b>mkmulti</b> tool (tools/mkmulti.go) to crate the multisig address:<br>
+Having all the public keys (each as a hexdump) just bring them all together and use the <b>mkmulti</b> tool (<code>tools/mkmulti/mkmulti.go</code>) to crate the multisig address:<br>
 <code>&nbsp;&nbsp;&nbsp;&nbsp;mkmulti &lt;number_of_sigs_needed_for_spending&gt; &lt;pubkey1&gt; &lt;pubkey2&gt; &lt;pubkey3&gt; ...</code><br>
 <i>(for testnet, just use a negative number)</i><br>
 For example:<br>

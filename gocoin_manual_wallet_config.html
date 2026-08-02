@@ -1,0 +1,211 @@
+<html>
+<head>
+<link rel="stylesheet" href="style.css" type="text/css">
+</head>
+<body>
+<h1>Wallet config file</h1>
+The offline wallet configuration file is named <b>wallet.cfg</b><br>
+The wallet looks for this file in the folder where it is being launched from, though you can point it
+somewhere else with the <code>GOCOIN_WALLET_CONFIG</code> environment variable, or with the
+<code>-cfg &lt;filename&gt;</code> command line switch (which has the priority over the variable).<br>
+<br>
+The file is a plain text one, with a single <code>name=value</code> pair per line.
+Lines starting with <code>#</code> are ignored, so an example config with all the values commented out
+is shipped along with the source code.<br>
+<br>
+<b>Command line switches have priority over the config file.</b>
+Most of the values below have a corresponding switch of the same name (run <code>wallet -h</code> to see them all).<br>
+<br>
+<i><b>Note:</b> the config file itself does not contain any secrets, but it does decide which keys the wallet
+creates from your seed password. Two different configs, with the same password, will give you two different
+wallets - so make sure to remember what you have set here.</i><br>
+<br>
+
+<h2>Wallet type and key derivation</h2>
+
+<table border="1" cellspacing="0" cellpadding="5">
+<tbody>
+<tr style="color:blue">
+<td>Field name</td>
+<td> Type</td>
+<td> Default value (if not specified)</td>
+<td> Description</td>
+</tr>
+<tr>
+<td class="cfg_name"> type</td>
+<td class="cfg_type"> int</td>
+<td> 3</td>
+<td class="cfg_info"> Type of the deterministic wallet, from 1 to 4.<br>
+Use <b>4</b> for a HD wallet (BIP32) - this is the type you want for any compatibility with other wallets.<br>
+The default of <b>3</b> is the Gocoin proprietary wallet.</td>
+</tr>
+<tr>
+<td class="cfg_name"> hdpath</td>
+<td class="cfg_type"> string</td>
+<td> m/0'</td>
+<td class="cfg_info"> BIP32 derivation path, leading to the first key.<br>
+Ignored for wallet types other than 4. Common values:<br>
+<code>m/84'/0'/0'/0/0</code> - Wasabi, Mycelium, Samourai (native segwit / bech32)<br>
+<code>m/49'/0'/0'/0/0</code> - Mycelium, Samourai (segwit compatible / P2SH)<br>
+<code>m/44'/0'/0'/0/0</code> - Mycelium, Samourai (legacy P2KH)<br>
+<code>m/44'/0'/0'/0</code> - Coinomi, Ledger<br>
+<code>m/0'/0'/0'</code> - Bitcoin Core<br>
+<code>m/0/0</code> - Electrum</td>
+</tr>
+<tr>
+<td class="cfg_name"> hdsubs</td>
+<td class="cfg_type"> int</td>
+<td> 1</td>
+<td class="cfg_info"> Number of the HD wallet's sub-accounts to calculate the keys for.
+Typically used to also include the change addresses, along with the deposit ones.<br>
+For example with <code>hdpath=m/84'/0'/0'/0/0</code> and <code>hdsubs=2</code>
+it calculates the addresses for both <code>m/84'/0'/0'/0/n</code> and <code>m/84'/0'/0'/1/n</code>.<br>
+Ignored for wallet types other than 4.</td>
+</tr>
+<tr>
+<td class="cfg_name"> bip39</td>
+<td class="cfg_type"> int</td>
+<td> 0</td>
+<td class="cfg_info"> Creates the HD wallet in BIP39 mode, with a mnemonic of 12, 15, 18, 21 or 24 words.<br>
+The default of <b>0</b> creates a wallet that is not BIP39 compatible.<br>
+The value of <b>-1</b> means that the seed password itself is a BIP39 mnemonic.<br>
+Ignored for wallet types other than 4. See the
+<a href="gocoin_manual_wallet.html#bip39">BIP39 compatibility</a> section.</td>
+</tr>
+<tr>
+<td class="cfg_name"> keycnt</td>
+<td class="cfg_type"> int</td>
+<td> 250</td>
+<td class="cfg_info"> How many deterministic addresses to pre-generate.
+Raise it if you use more addresses than that.</td>
+</tr>
+<tr>
+<td class="cfg_name"> atype</td>
+<td class="cfg_type"> string</td>
+<td> p2kh</td>
+<td class="cfg_info"> The type of the deposit addresses dumped by <code>wallet -l</code>. Possible values:<br>
+<code>p2kh</code> - the old base58 encoded addresses<br>
+<code>segwit</code> - base58 encoded segwit version 0 addresses<br>
+<code>bech32</code> - bech32 encoded segwit version 0 addresses<br>
+<code>tap</code> - bech32 encoded segwit version 1 (taproot) addresses<br>
+<code>pks</code> - raw public keys<br>
+It changes only how the addresses are presented, not the keys behind them - but pick one that matches
+your <code>hdpath</code>, or the addresses will look different than in the wallet you want to be compatible with.</td>
+</tr>
+<tr>
+<td class="cfg_name"> testnet</td>
+<td class="cfg_type"> bool</td>
+<td> false</td>
+<td class="cfg_info"> Generate testnet addresses.</td>
+</tr>
+<tr>
+<td class="cfg_name"> litecoin</td>
+<td class="cfg_type"> bool</td>
+<td> false</td>
+<td class="cfg_info"> Work in Litecoin (LTC) mode.</td>
+</tr>
+<tr>
+<td class="cfg_name"> uncompressed</td>
+<td class="cfg_type"> bool</td>
+<td> false</td>
+<td class="cfg_info"> Deprecated. Kept only for the compatibility with very old wallets.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>The seed and the key files</h2>
+
+<table border="1" cellspacing="0" cellpadding="5">
+<tbody>
+<tr style="color:blue">
+<td>Field name</td>
+<td> Type</td>
+<td> Default value (if not specified)</td>
+<td> Description</td>
+</tr>
+<tr>
+<td class="cfg_name"> secret</td>
+<td class="cfg_type"> string</td>
+<td> .secret</td>
+<td class="cfg_info"> Path to the file with the seed password.
+If the file does not exist, the wallet asks you to type the password in.</td>
+</tr>
+<tr>
+<td class="cfg_name"> others</td>
+<td class="cfg_type"> string</td>
+<td> .others</td>
+<td class="cfg_info"> Path to the file with additional private keys, in the base58 format
+(one key per line, optionally followed by a space and the key's label).</td>
+</tr>
+<tr>
+<td class="cfg_name"> seed</td>
+<td class="cfg_type"> string</td>
+<td> ""</td>
+<td class="cfg_info"> If specified, your seed password gets appended to this string.<br>
+The point is that a keyboard logger, which sees only what you type, does not see the entire secret.
+Note that it goes the other way around as well: whoever gets your config file still needs the password.</td>
+</tr>
+<tr>
+<td class="cfg_name"> scrypt</td>
+<td class="cfg_type"> int</td>
+<td> 0</td>
+<td class="cfg_info"> Use an extra <b>scrypt</b> function to convert the seed password into the master private key.
+The value is the CPU/memory cost parameter, as a power of two - recommended between 15 and 20.<br>
+It makes each brute force guess expensive, so it is the single most useful setting here
+if your password is memorable. <b>0</b> disables it (a less secure, backward compatible mode).<br>
+Cannot be used with <code>bip39=-1</code> - the wallet will refuse to start.</td>
+</tr>
+</tbody>
+</table>
+
+<h2>Making transactions</h2>
+
+<table border="1" cellspacing="0" cellpadding="5">
+<tbody>
+<tr style="color:blue">
+<td>Field name</td>
+<td> Type</td>
+<td> Default value (if not specified)</td>
+<td> Description</td>
+</tr>
+<tr>
+<td class="cfg_name"> fee</td>
+<td class="cfg_type"> string</td>
+<td> 0.001</td>
+<td class="cfg_info"> The transaction fee to be used, in BTC.</td>
+</tr>
+<tr>
+<td class="cfg_name"> prompt</td>
+<td class="cfg_type"> bool</td>
+<td> false</td>
+<td class="cfg_info"> Decode the signed transaction and ask you to confirm it,
+before writing it to disk. Recommended - see <a href="gocoin_manual_spending.html">Spending BTC</a>.</td>
+</tr>
+<tr>
+<td class="cfg_name"> apply2bal</td>
+<td class="cfg_type"> bool</td>
+<td> true</td>
+<td class="cfg_info"> Apply the changes to <code>balance/unspent.txt</code> after each send,
+so that the coins you have just spent are not used again by the next transaction.</td>
+</tr>
+<tr>
+<td class="cfg_name"> rfc6979</td>
+<td class="cfg_type"> bool</td>
+<td> false</td>
+<td class="cfg_info"> Create deterministic ECDSA signatures, as defined by RFC6979.<br>
+The signing nonce is then derived from the key and the message, instead of being drawn at random,
+which removes the risk of a faulty random generator leaking your private key.</td>
+</tr>
+<tr>
+<td class="cfg_name"> minsig</td>
+<td class="cfg_type"> bool</td>
+<td> false</td>
+<td class="cfg_info"> Keep signing until both R and S inside the ECDSA signature are only 32 bytes long,
+which makes the transaction a byte or two smaller.<br>
+Ignored when <code>rfc6979</code> is used, as there the signature is not being drawn again.</td>
+</tr>
+</tbody>
+</table>
+<br>
+</body>
+</html>

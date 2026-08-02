@@ -7,6 +7,11 @@
 
 <h2>Volatile UTXO database</h2>
 
+<i><b>Note:</b> what is described below concerns only the <b>initial blockchain download</b> (IBD).
+Once your node is synchronized, it saves the UTXO database periodically and this issue no longer applies
+&mdash; see the last paragraph of this section.</i><br>
+<br>
+
 When you start client node for the first time, it will go trough the process of downloading entire bitcoin
 block chain and building the UTXO database.
 To speed up this process the database is not being flushed to disk as the block processing goes on.<br>
@@ -15,9 +20,10 @@ The node only writes it to disk when either all the blocks are downloaded and pr
 been requested from a user interface (e.g. text command 'quit' was given).
 If you kill the process or reboot the machine, you will loose all your hard worked UTXO changes!
 Therefore, <u>to save the work as the new blocks are being processed, you should once for awhile quit the node and start it again</u>.
-This BTW may also have a positive impact on memory consumption, allowing you to set up the node with less RAM (e.g. 13GB).<br>
+This BTW may also have a positive impact on memory consumption, allowing you to set up the node with less RAM (e.g. 16GB).<br>
 <br>
-When the node is synchronized, it flushes UTXO database to disk once for awhile.
+When the node is synchronized, it flushes UTXO database to disk once for awhile
+(see the <span class="cfg_name">UTXOSave</span> values in the <a href="gocoin_manual_config.html">config file</a>).
 Killing it then won't have such a bad consequences, as it will start with the most recently written version of the database
 and only apply the data from the blocks that came later.<br>
 <br>

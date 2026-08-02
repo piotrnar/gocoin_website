@@ -94,8 +94,25 @@ Please note no spaces between the address, the equal sign and the value.<br>
 The value represents the amount in BTC, which you request to send to the given address.<br>
 <br>
 
-There are also other switches which you may find useful at this stage.<br>
-One of them (<code>-fee</code>) allows you to control the transaction's' fee.<br>
+There are also other switches which you may find useful at this stage:<br>
+<br>
+<code>&nbsp;&nbsp;-fee &lt;value&gt;</code> - the transaction fee, in BTC (see also the <code>fee</code> config value)<br>
+<code>&nbsp;&nbsp;-prompt</code> - decode the signed transaction and ask for a confirmation, before writing it to disk<br>
+<code>&nbsp;&nbsp;-txfn &lt;file&gt;</code> - write the signed transaction to this file, instead of a name made from the TxID<br>
+<code>&nbsp;&nbsp;-change &lt;address&gt;</code> - send the change to this address (by default it goes back to the first input)<br>
+<code>&nbsp;&nbsp;-f</code> - substract the fee from the first value, instead of adding it on top<br>
+<code>&nbsp;&nbsp;-seq &lt;value&gt;</code> - the sequence number to be used in the inputs.
+The default of <b>-3</b> marks the transaction as replaceable (RBF), so you can bump its fee later.
+Use <b>-1</b> or <b>-2</b> to make it final.<br>
+<code>&nbsp;&nbsp;-locktime &lt;value&gt;</code> - the transaction's lock time
+(a unix timestamp if 500000000 or more, otherwise a block height)<br>
+<code>&nbsp;&nbsp;-txver &lt;value&gt;</code> - the transaction version number (2 by default)<br>
+<br>
+<i><b>Note:</b> <code>-prompt</code> is worth setting permanently, with <code>prompt=true</code> in your
+<code>wallet.cfg</code> file. It shows you the decoded transaction while nothing has been written to disk yet,
+so you can abort before there is any file to move to the online machine.
+See the <a href="gocoin_manual_wallet_config.html">wallet config file</a> page.</i><br>
+<br>
 To see all the wallet's options, just run <code>wallet -h</code>
 
 <h3>Smart mode</h3>

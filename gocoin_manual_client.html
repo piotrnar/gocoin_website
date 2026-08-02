@@ -7,9 +7,14 @@
 Run <code>client -h</code> to see all available command line switches. Some example ones are:
 <br>
 <br>
-<code>-t - use Testnet (instead of regular bitcoin network)<br>
+<code>-t - use Testnet4 (instead of regular bitcoin network)<br>
+-t3 - use Testnet3<br>
 -ul=NN - set maximum upload speed to NN kilobytes per second<br>
 -dl=NN - set maximum download speed to NN kilobytes per second<br>
+-r - rebuild the UTXO database (fixes 'Unknown input TxID' errors)<br>
+-nowallet - do not enable the wallet functionality (uses less memory, processes blocks faster)<br>
+-sc - save the config file and exit (use it to create a default gocoin.conf)<br>
+-log &lt;file&gt; - save a copy of the console output to the given file<br>
 </code>
 <br>
 To run the client on a remote Linux server (via ssh connection), you probably want to get adventage of <b>screen</b> command.
