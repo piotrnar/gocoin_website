@@ -13,35 +13,37 @@ As long as you remember the password, you do not need to backup the wallet.<br>
 You can either enter this password each time when running the wallet, or you can store it in a file called <code>.secret </code>and never be asked to enter it again.<br>
 <br>
 
+<h3>Using random seed</h3>
 You do not need to use a memorable password. Instead you can create a random secret seed, e.g. using a command like this:<br>
-<code>&nbsp;&nbsp;&nbsp;&nbsp;cat /dev/urandom | tr -cd a-zA-Z0-9 | head -c 27 &gt; .secret</code><br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;cat /dev/urandom | tr -cd a-zA-Z0-9 | head -c 43 &gt; .secret</code><br>
+<br>
 <i><b>Note:</b> using a password that you cannot memorize, make sure to have a backup of your <code>.secret</code> file. </i>
-<i><br>
-</i>
+<br>
+<i><b>Warning:</b> See <a href="#entropy">On trusting random generators</a> for why using only a randomly generated value may be a bad idea.<br></i>
+<br>
+
 <h2>Export public addresses</h2>
 After you setup your wallet in a secured environment, you should export its public addresses.<br>
 <br>
 In order to do this, just run <code>wallet -l</code> and your wallet's public addresses will be written to <code>wallet.txt</code>.<br>
 <br>
 
-
-<h2>Security precautions</h2>
+<h2 id="security">Security precautions</h2>
 
 <b>The seed password is your entire wallet</b> and the function used to turn it into private keys is double SHA256<sup>*</sup>, which is pretty easy to compute.<br>
 That is why it is very important for you to make sure that the password you're choosing will be resistant to brute force and dictionary attacks.<br>
 If you choose to use a memorable seed password (aka <i>brain wallet</i>),
 make it <u>at least</u> 20 characters long, preferably more than 30.<br>
-Avoid using words that can be found in a dictionary, as well as using simple sentences, or even more complex ones if they are known.<br>
+Avoid using words - especially such that can be found in a dictionary, as well as using simple sentences, or even more complex ones if they are known.<br>
 <br>
 If you are affraid of forgetting the password and decide to write it down,
 try to describe it as a puzzle that only you can understad.<br>
 <b>Avoid writing down the password as is.</b><br>
 <br>
 
-There are claims that brain wallets are not secure because <i>"brains cannot be a good source of entropy"</i>.<br>
-If you belive that you have such a brain, use a secure random generator to create the <code>.secret</code> file for you.<br>
-At the other hand, <b>backups are a week point of the wallet's security, so having a memorable though <u>uncrackable</u> seed provides secure and convenient solution.</b> <br>
+<b>Backups are a week point of the wallet's security, so having a memorable though <u>uncrackable</u> seed provides secure and convenient solution.</b> <br>
 Moreover, <b>by choosing a <i>brain wallet</i> you will not have to carry any wallet with you, making it impossible for anyone to see that you are carrying any coins.</b><br>
+See <a href="#entropy">On trusting random generators</a> for why the common objection to brain wallets is weaker than it sounds.<br>
 <br>
 If you decide to store your seed in the <code>.secret</code> file, make sure to protect it accordingly (e.g. have the disk with it encrypted).<br>
 <br>
@@ -59,15 +61,84 @@ The key that you want to import must be in base58 encoded format, which looks so
 <br>
 
 The imported keys will extend the key pool of the deterministic ones (that come from your password-seed). After Importing each new key, you should redo <code>wallet -l</code> to get an updated <code>wallet.txt</code> for your client.
-
+<br>
 <br>
 
-<br>
-
-<hr>
 
 <h2>Optional: setup your node with the wallet file</h2>
 Having <b>wallet.txt</b> file generated at the wallet machine, use <b>Wallet</b> page of WebUI and store the content of
 this file as a wallet in your browser. You can choose any name you want and you can change labels for the addresses.
+<br>
+<br>
+
+<h2 id="entropy">On trusting random generators</h2>
+
+There are claims that brain wallets are not secure because <i>"brains cannot be a good source of entropy"</i>.<br>
+That is true, but it is only half of the picture &mdash; the other half is what the alternative asks you to trust.<br>
+<br>
+
+A random number generator is the one component whose output cannot be verified.
+A correct generator and a broken or backdoored one produce output that is statistically indistinguishable;
+there is no test that tells them apart.
+When the generator lives inside a CPU instruction or a secure element, you cannot inspect it either:
+nothing lets you rule out that what looks like noise is a cipher stream, keyed with a value known to whoever designed the silicon.<br>
+<br>
+
+<b>Bugs alone have a long record, and bitcoin has paid for most of them.</b><br>
+In August 2013 a weakness in Android's <code>SecureRandom</code> made wallets reuse the same random value when signing
+&mdash; and in ECDSA, two signatures sharing one random value give away the private key to anyone reading the blockchain.
+Bitcoin Wallet, Mycelium, BitcoinSpinner and the blockchain.info app were all affected, and the coins were taken.<br>
+In December 2014 blockchain.info's web wallet broke the same way: every key it produced that day was reproducible,
+and a white hat had to sweep the funds himself to keep them from thieves.
+Months later the same company's Android app was found fetching its entropy from random.org over plain HTTP
+&mdash; after random.org switched to HTTPS, the "random" bytes were the text of a redirect error.<br>
+Add the Debian OpenSSL key generation flaw (2008), the browser and BitcoinJS weaknesses behind "Randstorm" that touched wallets created between 2011 and 2015,
+and Libbitcoin's <code>bx seed</code> seeded with a 32-bit timestamp &mdash; "Milk Sad", 2023.<br>
+<br>
+
+The most expensive case so far came in July 2026.
+Because of a build configuration mistake made in March 2021, <b>Coldcard</b> hardware wallets had been seeding keys
+from a deterministic PRNG derived from the chip ID and a timer instead of the hardware RNG:
+roughly 40 bits of effective entropy on the Mk3.
+An attacker re-derived the keys offline and swept over 1,000 BTC from some 1,200 addresses within the hour,
+without touching a single device.
+That firmware had been open source and publicly reviewable for five years.
+The users who had added at least 50 of their own dice rolls during seed generation were the ones who came out safe.<br>
+<br>
+
+<b>Nothing above needs to be sabotage</b> &mdash; just ordinary mistakes that nobody spotted,
+because there is nothing to spot: broken output looks exactly like good output.
+Which is why deliberate weakening is not a hypothetical concern either.
+The documents released by Edward Snowden described <b>BULLRUN</b>, a programme aimed at covertly introducing
+weaknesses into encryption standards and products.
+Its best documented subject is <b>Dual_EC_DRBG</b>, a random generator that the NSA pushed into the NIST SP 800-90 standard:
+slower and more biased than the three alternatives beside it,
+and built so that whoever chose its two constants could predict its entire output.
+Cryptographers said so publicly in 2007; it was shipped as the default generator in a major commercial crypto library anyway;
+NIST told everyone to stop using it in 2013.
+There is still no document in which anyone admits inserting the backdoor &mdash; and that is exactly the point.
+With a random generator, you never get the proof.<br>
+<br>
+
+The conclusion is not that you should trust your imagination over <code>/dev/urandom</code>.
+It is that you should not have to trust either one alone.
+<b>Entropy that you contribute yourself cannot be taken away from you by a vendor's bug or by a backdoor</b>,
+so combine the two sources &mdash; the result is as strong as the better of them:<br>
+<code>&nbsp;&nbsp;&nbsp;&nbsp;( head -c 128 /dev/urandom ; head -n 1 ) | sha256sum | head -c 64 &gt; .secret</code><br>
+The command waits for you to type your own input and press Enter, then writes 256 bits of seed.
+Note that it deliberately reads your input from the keyboard instead of taking it as an argument &mdash;
+anything you type on the command line ends up stored in your shell history file.<br>
+<br>
+
+Your own contribution must be unpredictable, not merely hard for you to recall.
+Rolling a casino die 50 times, or flipping a coin 128 times, gives you entropy you can actually count.
+An invented sentence is worth far less than it feels like &mdash; but it is not worth zero,
+and it is entropy that no manufacturer, standards body or supply chain could have known in advance.
+Enabling the <code>scrypt</code> option makes each guess expensive, which raises the value of whatever entropy you do have.<br>
+<br>
+<a href="#security">&larr; back to Security precautions</a><br>
+<br>
+
+
 </body>
 </html>
