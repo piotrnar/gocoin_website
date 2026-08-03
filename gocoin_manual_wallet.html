@@ -96,6 +96,21 @@ so changing either of them gives you a completely different set of words.
 The <code>hdpath</code> and <code>hdsubs</code> values do not affect the mnemonic
 &mdash; they only decide which keys get derived from it.<br>
 <br>
+<b>Note that you do not need to backup the words at all.</b>
+The mnemonic is always recreated from your seed password, so backing up the content of your
+<code>.secret</code> file is enough &mdash; and such a backup is far less obvious about what it is.
+A sheet of paper with 24 english words on it says <i>bitcoin wallet</i> to anyone who finds it,
+while a line of text does not have to say anything.<br>
+<br>
+You can go a step further and write it down as a puzzle that only you can solve
+(e.g. always swap 'a' with 'x', or 'e' with '3'), so that even somebody who knows what he is looking at
+cannot turn your backup into a wallet.<br>
+<br>
+<i><b>Warning:</b> whatever rule you use, you have to be able to apply it years from now.
+One forgotten swap and the coins are gone.
+The same goes for the config &mdash; without the same <code>bip39</code> and <code>scrypt</code> values,
+the very same <code>.secret</code> file will give you a different set of words.</i><br>
+<br>
 
 <i><b>Note:</b> the mnemonic is derived from your seed password, so its strength is the strength of that password.
 Asking for 24 words instead of 12 does not make a weak password any stronger.</i><br>
