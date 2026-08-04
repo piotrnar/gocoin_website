@@ -216,7 +216,7 @@ It is that you should not have to trust either one alone.
 <b>Entropy that you contribute yourself cannot be taken away from you by a vendor's bug or by a backdoor</b>,
 so combine the two sources &mdash; the result is as strong as the better of them:<br>
 <code>&nbsp;&nbsp;&nbsp;&nbsp;( head -c 128 /dev/urandom ; head -n 1 ) | sha256sum | head -c 64 &gt; .secret</code><br>
-The command waits for you to type your own input and press Enter, then writes 256 bits of seed.
+The command waits for you to type your own input (may as well come from dice rolls) and press Enter, then writes 256 bits of seed.
 Note that it deliberately reads your input from the keyboard instead of taking it as an argument &mdash;
 anything you type on the command line ends up stored in your shell history file.<br>
 <br>
