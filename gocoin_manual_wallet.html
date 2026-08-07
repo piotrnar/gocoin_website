@@ -4,7 +4,23 @@
 </head>
 <body>
 <h1>Setup wallet</h1>
-Run <code>wallet -h</code> to see all available command line switches.
+<b>The wallet tool is meant to be run offline.</b><br>
+It does not need any network connection - all it ever does is reading and writing files,
+so it can do its entire job on a machine that has no way of talking to the outside world.<br>
+<br>
+The more offline the machine, the better:<br>
+<ul>
+<li><b>Best:</b> a computer that never was and never will be connected to the internet -
+preferably one that does not even have any network hardware, so that it acts like a hardware wallet.</li>
+<li><b>Good:</b> any PC booted from a USB stick or a CD, with no network turned on.</li>
+<li><b>Acceptable:</b> your trusted PC, with the network temporarily turned off -
+or even still on, if you believe it is secured.</li>
+</ul>
+The environment you run your wallet on is completely up to you.
+We provide a tool that can run on a completely off-line computer, as well as on a hot on-line one -
+and we trust you are smart enough to know which one is safe enough for you, for the purpose.<br>
+<br>
+Run <code>wallet -h</code> to see all available command line switches.<br>
 <br>
 
 <h2>Setup your seed</h2>
